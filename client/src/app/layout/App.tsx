@@ -1,7 +1,12 @@
 import { useState } from 'react';
-import Catalog from '../../features/catalog/Catalog';
 import Header from './Header';
-import { Container, CssBaseline, createTheme, ThemeProvider } from '@mui/material';
+import {
+  Container,
+  CssBaseline,
+  createTheme,
+  ThemeProvider,
+} from '@mui/material';
+import { Outlet } from 'react-router-dom';
 
 function App() {
   //theme choices for MUI
@@ -11,26 +16,26 @@ function App() {
     palette: {
       mode: paletteType,
       background: {
-        default: paletteType === 'light' ? '#eaeaea' : '#333333'
-      }
-  }
-  })
-  
+        default: paletteType === 'light' ? '#eaeaea' : '#333333',
+      },
+    },
+  });
+
   function handleThemeChange() {
+    //toggle mode
     setDarkMode(!darkMode);
-}
+  }
 
   return (
     <>
       <ThemeProvider theme={theme}>
-      {/* CssBaseline component resets browser css (removes default margin/padding) */}
-      <CssBaseline />
+        {/* CssBaseline component resets browser css (removes default margin/padding) */}
+        <CssBaseline />
         <Header darkMode={darkMode} handleThemeChange={handleThemeChange} />
-      <Container>
-        {/* passing props to catalog */}
-        <Catalog/>
+        <Container>
+          <Outlet />
         </Container>
-        </ThemeProvider>
+      </ThemeProvider>
     </>
   );
 }
