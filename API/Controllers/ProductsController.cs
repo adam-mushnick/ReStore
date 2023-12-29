@@ -8,13 +8,8 @@ using Microsoft.EntityFrameworkCore;
 //namespace is the scope of this class
 namespace API.Controllers
 {
-    //[ ] are attributes
-    //attribute to denote a controller that's part of an API
-    [ApiController]
-    //defines route for the controller. [controller] is placeholder for the controller's name
-    [Route("api/[controller]")]
-    //defines a controller class that inherits from ControllerBase (base class for controllers)
-    public class ProductsController : ControllerBase
+
+    public class ProductsController : BaseApiController
     {
         private readonly StoreContext _context;
         public ProductsController(StoreContext context)
@@ -35,7 +30,13 @@ namespace API.Controllers
         //GetProduct returns a single product
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            return await _context.Products.FindAsync(id);
+            //save found id product
+            var product = await _context.Products.FindAsync(id);
+
+            //return not found if product doesn't exist
+            if (product == null) return NotFound();
+
+            return product;
         }
     }
 }

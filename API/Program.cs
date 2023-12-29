@@ -1,6 +1,7 @@
 //Program.cs is the entry point of an ASP.NET Core app
 
 using API.Data;
+using API.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,8 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline (middleware section)
 //order matters
+app.UseMiddleware<ExceptionMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
